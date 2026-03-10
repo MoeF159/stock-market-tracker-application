@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import NavItems from "@/components/NavItems";
+import UserDropDown from "@/components/UserDropDown";
 
 const Header = () => {
   return (
@@ -14,7 +15,7 @@ const Header = () => {
           <NavItems />
          
         </nav> 
-          {/* User Dropdown */}
+          <UserDropDown />
       </div>
     </header>
   )
