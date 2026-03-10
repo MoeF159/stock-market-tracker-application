@@ -52,7 +52,7 @@ export const MARKET_OVERVIEW_WIDGET_CONFIG = {
     belowLineFillColorFalling: 'rgba(41, 98, 255, 0.12)',   
     belowLineFillColorGrowingBottom: 'rgba(41, 98, 255, 0)',    
     belowLineFillColorFallingBottom: 'rgba(41, 98, 255, 0)',
-    symbolActiveColor: 'rbga(15, 237, 190, 0.05)',
+    symbolActiveColor: 'rgba(15, 237, 190, 0.05)',
     tabs: [
         {
             title: "Financial",
@@ -187,7 +187,7 @@ export const MARKET_OVERVIEW_WIDGET_CONFIG = {
                         {name: 'NASDAQ:AAPL', displayName: 'Apple Inc.'},
                         {name: 'NASDAQ:MSFT', displayName: 'Microsoft Corporation'},
                         {name: 'NASDAQ:GOOGL', displayName: 'Alphabet Inc.'},
-                        {name: 'NASDAQ:FB', displayName: 'Meta Platforms Inc.'},
+                        {name: 'NASDAQ:META', displayName: 'Meta Platforms Inc.'},
                         {name: 'NASDAQ:ORCL', displayName: 'Oracle Corporation'},
                         {name: 'NASDAQ:INTC', displayName: 'Intel Corporation'},                    
                     ],
@@ -196,10 +196,10 @@ export const MARKET_OVERVIEW_WIDGET_CONFIG = {
                 {
                     name: 'Services',
                     symbols: [
-                        {name: 'NYSE:AMZN', displayName: 'Amazon.'},
+                        {name: 'NASDAQ:AMZN', displayName: 'Amazon.'},
                         {name: 'NYSE:BABA', displayName: 'Alibaba Group Holdings Ltd.'},
                         {name: 'NYSE:T', displayName: 'AT&T Inc.'},
-                        {name: 'NYSE:WMT', displayName: 'Walmart Inc.'},
+                        {name: 'NASDAQ:WMT', displayName: 'Walmart Inc.'},
                         {name: 'NYSE:V', displayName: 'Visa Inc.'},
                     ],
                 },
