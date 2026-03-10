@@ -188,7 +188,7 @@ export const MARKET_OVERVIEW_WIDGET_CONFIG = {
                         {name: 'NASDAQ:MSFT', displayName: 'Microsoft Corporation'},
                         {name: 'NASDAQ:GOOGL', displayName: 'Alphabet Inc.'},
                         {name: 'NASDAQ:META', displayName: 'Meta Platforms Inc.'},
-                        {name: 'NASDAQ:ORCL', displayName: 'Oracle Corporation'},
+                        {name: 'NYSE:ORCL', displayName: 'Oracle Corporation'},
                         {name: 'NASDAQ:INTC', displayName: 'Intel Corporation'},                    
                     ],
                 },
