@@ -8,16 +8,16 @@ const useTradingViewWidget = (scriptURL: string, config: Record<string, unknown>
              useEffect(
  
              () => {
-    +            const container = containerRef.current;
-    +            if (!container || container.dataset.loaded) return;
-    +
-    +            const widgetHost = container.querySelector<HTMLDivElement>(
-    +                ".tradingview-widget-container__widget"
-    +            );
-    +            if (!widgetHost) return;
-    +
-    +            widgetHost.style.width = "100%";
-    +            widgetHost.style.height = `${height}px`;
+                const container = containerRef.current;
+                if (!container || container.dataset.loaded) return;
+
+                const widgetHost = container.querySelector<HTMLDivElement>(
+                    ".tradingview-widget-container__widget"
+                );
+                if (!widgetHost) return;
+
+                widgetHost.style.width = "100%";
+                widgetHost.style.height = `${height}px`;
      
                  const script = document.createElement("script");
                  script.src = scriptURL;
