@@ -5,32 +5,29 @@ const useTradingViewWidget = (scriptURL: string, config: Record<string, unknown>
 
     const containerRef = useRef<HTMLDivElement | null>(null);
 
-      useEffect(
+      useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    if (container.dataset.loaded) return;
 
-        () => {
-            if(!containerRef.current) return;
-            if(containerRef.current.dataset.loaded) return;
-            containerRef.current.innerHTML = `<div class= tradingview-widget-container_widget_style="width: 100%; height: ${height}px;"></div>`;
+    const widgetHost = document.createElement("div");
+    widgetHost.style.cssText = `width: 100%; height: ${height}px;`;
+    widgetHost.className = "tradingview-widget-container__widget";
+    container.appendChild(widgetHost);
 
-        
-        
-            const script = document.createElement("script");
-            script.src = scriptURL;
-            script.async = true;
-            script.innerHTML = JSON.stringify(config);
-                
-            containerRef.current.appendChild(script);
-            containerRef.current.dataset.loaded = "true";
+    const script = document.createElement("script");
+    script.src = scriptURL;
+    script.async = true;
+    script.innerHTML = JSON.stringify(config);
+    container.appendChild(script);
+    container.dataset.loaded = "true";
 
-            return () => {
-                if(containerRef.current) {
-                    containerRef.current.innerHTML = "";
-                    // eslint-disable-next-line react-hooks/exhaustive-deps
-                    delete containerRef.current.dataset.loaded;
-                }
-            };
-
-        },[scriptURL, config, height] );
+    return () => {
+        script.remove();
+        widgetHost.remove();
+        delete container.dataset.loaded;
+    };
+}, [scriptURL, config, height]);
     
     return containerRef;
 
