@@ -5,31 +5,35 @@ const useTradingViewWidget = (scriptURL: string, config: Record<string, unknown>
 
     const containerRef = useRef<HTMLDivElement | null>(null);
 
-      useEffect(
-
-        () => {
-            if(!containerRef.current) return;
-            if(containerRef.current.dataset.loaded) return;
-            containerRef.current.innerHTML = `<div class= tradingview-widget-container_widget_style="width: 100%; height: ${height}px;"></div>`;
-
-        
-        
-            const script = document.createElement("script");
-            script.src = scriptURL;
-            script.async = true;
-            script.innerHTML = JSON.stringify(config);
-                
-            containerRef.current.appendChild(script);
-            containerRef.current.dataset.loaded = "true";
-
-            return () => {
-                if(containerRef.current) {
-                    containerRef.current.innerHTML = "";
-                    delete containerRef.current.dataset.loaded;
-                }
-            };
-
-        },[scriptURL, config, height] );
+             useEffect(
+ 
+             () => {
+    +            const container = containerRef.current;
+    +            if (!container || container.dataset.loaded) return;
+    +
+    +            const widgetHost = container.querySelector<HTMLDivElement>(
+    +                ".tradingview-widget-container__widget"
+    +            );
+    +            if (!widgetHost) return;
+    +
+    +            widgetHost.style.width = "100%";
+    +            widgetHost.style.height = `${height}px`;
+     
+                 const script = document.createElement("script");
+                 script.src = scriptURL;
+                 script.async = true;
+    +            script.textContent = JSON.stringify(config);
+                     
+    +            container.appendChild(script);
+    +            container.dataset.loaded = "true";
+     
+                 return () => {
+    +                script.remove();
+    +                widgetHost.replaceChildren();
+    +                delete container.dataset.loaded;
+                 };
+     
+         },[scriptURL, config, height] );
     
     return containerRef;
 
