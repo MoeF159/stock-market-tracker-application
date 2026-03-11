@@ -47,6 +47,25 @@ const SignUp = () => {
                     validation={{ required: "Full name is required", minLength: 2 }}
                 />
 
+                <InputField 
+                    name="email"
+                    label="Email"
+                    placeholder="JohnDoe@example.com"
+                    register={register}
+                    error={errors.email}
+                    validation={{ required: "Email is required", pattern: /^\w+@\w+\.\w+$/, message: 'Email address is required'}}
+                />
+
+                <InputField 
+                    name="password"
+                    label="Password"
+                    placeholder="••••••••"
+                    type="password"
+                    register={register}
+                    error={errors.password}
+                    validation={{ required: "Password is required", minLength: 8 }}
+                />
+
                 <Button type="submit" disabled={isSubmitting} className="yellow-btn w-full mt-5">
                     {isSubmitting ? "Creating Account..." : "Start Your Investing Journey"}
                 </Button>
