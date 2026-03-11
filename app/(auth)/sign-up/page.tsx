@@ -1,4 +1,5 @@
 'use client';
+import InputField from "@/components/forms/inputField";
 import { Button } from "@/components/ui/button";
 import {SubmitHandler, useForm} from "react-hook-form";
 
@@ -37,6 +38,14 @@ const SignUp = () => {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                 {/* Form fields would go here */}
+                <InputField 
+                    name="fullName"
+                    label="Full Name"
+                    placeholder="John Doe"
+                    register={register}
+                    error={errors.fullName}
+                    validation={{ required: "Full name is required", minLength: 2 }}
+                />
 
                 <Button type="submit" disabled={isSubmitting} className="yellow-btn w-full mt-5">
                     {isSubmitting ? "Creating Account..." : "Start Your Investing Journey"}
