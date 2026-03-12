@@ -38,7 +38,7 @@ const SelectField = ({
                                 <SelectItem 
                                 key={option.value} 
                                 value={option.value}
-                                className="focus:bg-ray-600 focus:text-white"
+                                className="focus:bg-gray-600 focus:text-white"
                                 >
                                     {option.label}
                                 </SelectItem>
