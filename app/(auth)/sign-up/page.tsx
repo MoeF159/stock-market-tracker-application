@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { INVESTMENT_GOALS, RISK_TOLERANCE_OPTIONS, PREFERRED_INDUSTRIES } from "@/lib/constants";
 import {SubmitHandler, useForm} from "react-hook-form";
 import SelectField from "@/components/forms/SelectField";
-
+import {CountrySelectField} from "@/components/forms/CountrySelectField";
 const SignUp = () => {
     
     const {
@@ -68,7 +68,13 @@ const SignUp = () => {
                     validation={{ required: "Password is required", minLength: 8 }}
                 />
 
-                {/* Additional fields for country, investment goals, risk tolerance, and preferred industries would go here */}
+                <CountrySelectField 
+                    name="country"
+                    label="Country"
+                    control={control}
+                    error={errors.country}
+                    required
+                />
 
                 <SelectField 
                     name="investmentGoals"
