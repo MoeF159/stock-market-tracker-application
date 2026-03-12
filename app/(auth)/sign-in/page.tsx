@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import InputField from '@/components/forms/InputField';
+import InputField from '@/components/forms/inputField';
 import FooterLink from '@/components/forms/FooterLink';
 
 
