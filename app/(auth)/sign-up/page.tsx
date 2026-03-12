@@ -1,5 +1,5 @@
 'use client';
-import InputField from "@/components/forms/inputField";
+import InputField from "@/components/forms/InputField";
 import { Button } from "@/components/ui/button";
 import { INVESTMENT_GOALS, RISK_TOLERANCE_OPTIONS, PREFERRED_INDUSTRIES } from "@/lib/constants";
 import {SubmitHandler, useForm} from "react-hook-form";
