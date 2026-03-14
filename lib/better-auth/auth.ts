@@ -18,12 +18,21 @@ export const getAuth = async () => {
         throw new Error ("MongoDB connection is not established");
     }
 
-    authInstance = betterAuth({
-        database: mongodbAdapter(db as any),
+     const secret = process.env.BETTER_AUTH_SECRET;
+     const baseURL = process.env.BETTER_AUTH_URL;
+     
+     if (!secret) {
+         throw new Error("BETTER_AUTH_SECRET environment variable is not set");
+     }
+     if (!baseURL) {
+         throw new Error("BETTER_AUTH_URL environment variable is not set");
+     }
 
-        secret: process.env.BETTER_AUTH_SECRET!,
-        baseURL: process.env.BETTER_AUTH_URL!,
-        emailAndPassword: {
+     authInstance = betterAuth({
+         database: mongodbAdapter(db as any),
+         secret,
+         baseURL,
+         emailAndPassword: { 
             enabled: true,
             disableSignUp: false,
             requireEmailVerification: false,
