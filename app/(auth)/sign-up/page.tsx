@@ -31,7 +31,7 @@ const SignUp = () => {
     
     const onSubmit =  async (data : SignUpFormData) => {
         try{
-            console.log("Form Data:", data);
+            // signUpWithEmail
         }catch(error){
             console.error("Error during sign up:", error);
         }
