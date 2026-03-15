@@ -7,7 +7,6 @@ import FooterLink from '@/components/forms/FooterLink';
 import { useRouter } from 'next/navigation';
 import { signInWithEmail } from '@/lib/actions/auth.actions';
 import { toast } from 'sonner';
-import { Sign } from 'crypto';
 
 const SignIn = () => {
     
