@@ -153,7 +153,7 @@ export const WELCOME_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                Signalist HQ, 200 Market Street, San Francisco, CA 94105<br>
                                 <a href="#" style="color: #CCDADC !important; text-decoration: underline;">Unsubscribe</a> | 
                                 <a href="https://stock-market-dev.vercel.app/" style="color: #CCDADC !important; text-decoration: underline;">Visit Signalist</a><br>
-                                © 2025 Signalist
+                                © 2026 Signalist
                             </p>
                         </td>
                     </tr>
@@ -291,7 +291,7 @@ export const NEWS_SUMMARY_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                     <a href="https://signalist.app" style="color: #CCDADC !important; text-decoration: underline;">Visit Signalist</a>
                                 </p>
                                 <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #CCDADC !important;">
-                                    © 2025 Signalist
+                                    © 2026 Signalist
                                 </p>
                             </div>
                         </td>
@@ -500,7 +500,7 @@ export const STOCK_ALERT_UPPER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                     <a href="https://signalist.app" style="color: #CCDADC !important; text-decoration: underline;">Visit Signalist</a>
                                 </p>
                                 <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #CCDADC !important;">
-                                    © 2025 Signalist
+                                    © 2026 Signalist
                                 </p>
                             </div>
                         </td>
@@ -709,7 +709,7 @@ export const STOCK_ALERT_LOWER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                     <a href="https://signalist.app" style="color: #CCDADC !important; text-decoration: underline;">Visit Signalist</a>
                                 </p>
                                 <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #CCDADC !important;">
-                                    © 2025 Signalist
+                                    © 2026 Signalist
                                 </p>
                             </div>
                         </td>
@@ -929,7 +929,7 @@ export const VOLUME_ALERT_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                     <a href="https://signalist.app" style="color: #CCDADC !important; text-decoration: underline;">Visit Signalist</a>
                                 </p>
                                 <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #CCDADC !important;">
-                                    © 2025 Signalist
+                                    © 2026 Signalist
                                 </p>
                             </div>
                         </td>
@@ -1096,7 +1096,7 @@ export const INACTIVE_USER_REMINDER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                     <a href="{{dashboardUrl}}" style="color: #CCDADC !important; text-decoration: underline;">Visit Signalist</a>
                                 </p>
                                 <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #CCDADC !important;">
-                                    © 2025 Signalist
+                                    © 2026 Signalist
                                 </p>
                             </div>
                         </td>
