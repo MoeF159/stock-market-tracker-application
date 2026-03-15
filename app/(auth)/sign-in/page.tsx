@@ -29,6 +29,10 @@ const SignIn = () => {
             const result = await signInWithEmail(data);
             if(result.success){
                 router.push('/');
+            }else{
+                toast.error("sign in failed", {
+                    description: result.error || 'Failed to sign in.'
+                });
             }
             
         }catch(error){

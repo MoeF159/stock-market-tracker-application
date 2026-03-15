@@ -27,7 +27,7 @@ const SignUp = () => {
             country: "US",
             investmentGoals: "Growth",
             riskTolerance: "Medium",
-            preferredIndustrys: "Technology",
+            preferredIndustry: "Technology",
         },
         mode: 'onBlur'
     }, );
@@ -38,6 +38,10 @@ const SignUp = () => {
             const result = await signUpWithEmail(data);
             if(result.success){
                 router.push('/');
+            }else{
+                toast.error("sign up failed", {
+                    description: result.error || 'Failed to create an account.'
+                });
             }
             
         }catch(error){
