@@ -1,6 +1,6 @@
 import { inngest } from "@/lib/inngest/client";
 import { NEWS_SUMMARY_EMAIL_PROMPT, PERSONALIZED_WELCOME_EMAIL_PROMPT } from "@/lib/inngest/prompts";
-import { sendWelcomeEmail, } from "@/lib/nodemailer";
+import { sendNewsSummaryEmail, sendWelcomeEmail, } from "@/lib/nodemailer";
 import { getAllUsersForNewsEmail } from "@/lib/actions/user.actions";
 import { getWatchlistSymbolsByEmail } from "@/lib/actions/watchlist.actions";
 import { getNews } from "@/lib/actions/finnhub.actions";
@@ -89,7 +89,7 @@ export const sendDailyNewsSummary = inngest.createFunction(
         });
 
         // Step 3: Summarize news using AI
-        const userNewsSummaries: { user: User; newsContent: string | null}[] = [];
+        const userNewsSummaries: { user: UserForNewsEmail; newsContent: string | null}[] = [];
 
         for (const { user, articles} of results){
             try {
@@ -115,5 +115,16 @@ export const sendDailyNewsSummary = inngest.createFunction(
             }
         }
         // Step 4: Send email with news summary
+        await step.run('send-news-emails', async () => {
+                await Promise.all(
+                    userNewsSummaries.map(async ({ user, newsContent}) => {
+                        if(!newsContent) return false;
+
+                        return await sendNewsSummaryEmail({ email: user.email, date: getFormattedTodayDate(), newsContent })
+                    })
+                )
+            })
+
+        return { success: true, message: 'Daily news summary emails sent successfully' }
     }
 )
