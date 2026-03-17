@@ -333,3 +333,44 @@
 .scrollbar-hide-default::-webkit-scrollbar-thumb:hover {
   background-color: #9095A1;
 }
+
+.search-popup {
+  background-color: #1f1f1f; /* dark background */
+  border-radius: 8px;
+  padding: 8px; /* padding around content */
+  min-width: 280px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.search-popup-header {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ccc;
+  margin-bottom: 6px;
+}
+
+.search-popup-item {
+  padding: 10px 12px; /* y and x padding */
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: background-color 0.2s;
+}
+
+.search-popup-item:hover {
+  background-color: rgba(255,255,255,0.05);
+}
+
+.search-popup-item-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.search-popup-item-sub {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #aaa;
+}
