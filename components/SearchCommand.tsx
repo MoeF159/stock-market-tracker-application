@@ -18,18 +18,20 @@ export default function SearchCommand({
   label = "Add stock", 
   initialStocks 
 }: SearchCommandProps) {
+  // ✅ Default fallback array
+  const defaultStocks: StockWithWatchlistStatus[] = [
+    { symbol: "TST", name: "TEST", exchange: "NASDAQ", type: "TYPE", isInWatchlist: false }
+  ]
+
   const [open, setOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [loading, setLoading] = useState(false)
-  const [stocks, setStocks] = useState<StockWithWatchlistStatus[]>(initialStocks)
+  const [stocks, setStocks] = useState<StockWithWatchlistStatus[]>(initialStocks ?? defaultStocks)
 
-  // ✅ Debounced value of search term
-  const debouncedSearchTerm = useDebounce(searchTerm, 300)
-
-  const isSearchMode = !!debouncedSearchTerm.trim()
+  const isSearchMode = !!searchTerm.trim()
   const displayStocks = isSearchMode ? stocks : stocks?.slice(0, 10)
 
-  // Keyboard shortcut (Cmd/Ctrl + K)
+  // Keyboard shortcut: Cmd/Ctrl + K
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
@@ -41,10 +43,12 @@ export default function SearchCommand({
     return () => window.removeEventListener("keydown", onKeyDown)
   }, [])
 
-  // Search whenever debounced value changes
+  // Debounced search
+  const debouncedSearchTerm = useDebounce(searchTerm, 300)
+
   useEffect(() => {
     if (!debouncedSearchTerm.trim()) {
-      setStocks(initialStocks)
+      setStocks(initialStocks ?? defaultStocks)
       return
     }
 
@@ -66,7 +70,7 @@ export default function SearchCommand({
   const handleSelectStock = () => {
     setOpen(false)
     setSearchTerm("")
-    setStocks(initialStocks)
+    setStocks(initialStocks ?? defaultStocks)
   }
 
   return (
