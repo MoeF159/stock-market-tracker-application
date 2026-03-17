@@ -116,11 +116,13 @@ export default function SearchCommand({
                     onClick={handleSelectStock}
                     className="search-item-link"
                   >
-                    <TrendingUp className="h-4 w-4 text-gray-500" />
-                    <div className="flex-1">
-                      <div className="search-item-name">{stock.name}</div>
-                      <div className="text-sm text-gray-500">
-                        {stock.symbol} | {stock.exchange} | {stock.type}
+                    <div className="flex items-center space-x-2 px-2 py-1 hover:bg-gray-800 rounded">
+                      <TrendingUp className="h-4 w-4 text-gray-500 shrink-0" />
+                      <div className="flex-1">
+                        <div className="search-item-name text-white">{stock.name}</div>
+                        <div className="text-sm text-gray-400">
+                          {stock.symbol} | {stock.exchange} | {stock.type}
+                        </div>
                       </div>
                     </div>
                   </Link>
