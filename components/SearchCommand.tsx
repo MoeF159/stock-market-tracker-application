@@ -13,16 +13,16 @@ import Link from "next/link"
 import { searchStocks } from "@/lib/actions/finnhub.actions"
 import { useDebounce } from "@/hooks/useDebounce"
 
+// Moved defaultStocks outside the component to avoid useEffect dependency warnings
+const defaultStocks: StockWithWatchlistStatus[] = [
+  { symbol: "TST", name: "TEST", exchange: "NASDAQ", type: "TYPE", isInWatchlist: false }
+]
+
 export default function SearchCommand({ 
   renderAs = "button", 
   label = "Add stock", 
   initialStocks 
 }: SearchCommandProps) {
-  // ✅ Default fallback array
-  const defaultStocks: StockWithWatchlistStatus[] = [
-    { symbol: "TST", name: "TEST", exchange: "NASDAQ", type: "TYPE", isInWatchlist: false }
-  ]
-
   const [open, setOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [loading, setLoading] = useState(false)
@@ -43,7 +43,7 @@ export default function SearchCommand({
     return () => window.removeEventListener("keydown", onKeyDown)
   }, [])
 
-  // Debounced search
+  // Debounced search term
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
 
   useEffect(() => {
