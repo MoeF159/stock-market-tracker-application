@@ -2,7 +2,7 @@
 
 ## Overview
 
-Signalist is a modern stock market tracking dashboard built with Next.js and TradingView embeds. It provides authenticated users with a comprehensive Market overview, real-time stock search, and daily market news summaries tailored to their holdings.
+Signalist is an AI-powered modern stock market tracking dashboard built with Next.js, Shadcn, Better Auth, and Inngest. It provides authenticated users with a comprehensive Market overview including real-time prices, company insights, financial news and stock market activity. It also allows for real-time stock search, and daily market news summaries tailored to the user.
 
 **Who it’s for:** retail investors and traders who want a lightweight, data-driven starting point to monitor their portfolio and stay on top of market-moving headlines.
 
@@ -54,14 +54,14 @@ Signalist is a modern stock market tracking dashboard built with Next.js and Tra
    ```
 3. Create a new .env file with the following template and fill in your own keys:
    ```bash
-   NEXT_PUBLIC_FINNHUB_API_KEY=your_finnhub_api_key_here
-   FINNHUB_API_KEY=your_finnhub_api_key_here
-   MONGODB_URI=your_mongodb_uri_here
-   BETTER_AUTH_SECRET=your_better_auth_secret_here
+   NEXT_PUBLIC_FINNHUB_API_KEY=
+   FINNHUB_API_KEY=
+   MONGODB_URI=
+   BETTER_AUTH_SECRET=
    BETTER_AUTH_URL=http://localhost:3000
-   GEMINI_API_KEY=your_gemini_api_key_here
-   NODEMAILER_EMAIL=your_email_here
-   NODEMAILER_PASSWORD=your_email_password_here
+   GEMINI_API_KEY=
+   NODEMAILER_EMAIL=
+   NODEMAILER_PASSWORD=
    ```
 4. Start the development server:
    ```bash
@@ -91,7 +91,7 @@ Create a `.env` file with the following variables:
 
 - Add portfolio performance tracking (P/L, asset allocation)
 - Improve search relevance with fuzzy matching and sector filtering
-- Add a Watchlist feature and Watchlist page for users to view focused stocks
+- Add a Watchlist feature and Watchlist page to view focused stocks
 
 ## Live Demo
 
