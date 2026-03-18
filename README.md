@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Signalist — Stock Market Tracker
 
-## Getting Started
+## Overview
 
-First, run the development server:
+Signalist is an AI-powered modern stock market tracking dashboard built with Next.js, Shadcn, Better Auth, and Inngest. It provides authenticated users with a comprehensive Market overview including real-time prices, company insights, financial news and stock market activity. It also allows for real-time stock search, and daily market news summaries tailored to the user.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**Who it’s for:** retail investors and traders who want a lightweight, data-driven starting point to monitor their portfolio and stay on top of market-moving headlines.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Why it’s useful:** It combines market data widgets, fast symbol discovery, and an automated news summarization pipeline to reduce noise and surface the most relevant updates for users.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Secure email/password authentication with session-based access control
+- Stock symbol search with debounced API calls and instant navigation
+- TradingView-powered dashboards: heatmap, quotes, and news widgets
+- Daily market news email summaries generated via AI (Inngest + Gemini)
+- Graceful API fallbacks and rate-limit safe caching
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend:** Next.js (App Router), React, Tailwind CSS
+- **Backend:** Next.js Server Actions, Inngest serverless functions
+- **API:** Finnhub stock and news APIs, TradingView embedded widgets
+- **Auth:** Custom Better Auth integration
+- **Database:** MongoDB (Mongoose) for User credentials storage
+- **Email:** Nodemailer templates with AI-generated summaries
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Architecture / How It Works
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Next.js App Router** serves authenticated pages under `app/(root)` and protects auth routes under `app/(auth)`.
+- **Server Actions** (e.g., `signInWithEmail`, `getWatchlistSymbolsByEmail`) run on the server and interact directly with the database and auth API.
+- **TradingView Widgets** are rendered client-side via a custom hook that injects TradingView scripts once per widget container.
+- **Inngest Functions** handle async background tasks:
+  - `app/user.created` triggers a welcome email with AI-generated content
+  - `app/send.daily.news` (cron) generates personalized market summaries and sends email digests
 
-## Deploy on Vercel
+## Key Highlights
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Optimized API use:** Stock search is debounced and cached using Next.js cache options to minimize Finnhub request volume.
+- **Scalable news pipeline:** Runs per-user news aggregation and AI summarization in discrete steps to avoid timeouts.
+- **Server-side protection:** Layout components redirect unauthenticated users to the sign-in page early in the render lifecycle.
+- **Reusable widget tooling:** TradingView embeds are managed via a hook that cleans up scripts to prevent double-loading.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Setup Instructions
+
+1. Clone the repo:
+   ```bash
+   git clone <repo-url>
+   cd stock-market-tracker-application
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a new .env file with the following template and fill in your own keys:
+   ```bash
+   NEXT_PUBLIC_FINNHUB_API_KEY=
+   FINNHUB_API_KEY=
+   MONGODB_URI=
+   BETTER_AUTH_SECRET=
+   BETTER_AUTH_URL=http://localhost:3000
+   GEMINI_API_KEY=
+   NODEMAILER_EMAIL=
+   NODEMAILER_PASSWORD=
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+5. Open the app in your browser:
+   ```
+   http://localhost:3000
+   ```
+
+## Environment Variables
+
+Create a `.env` file with the following variables:
+
+- `NEXT_PUBLIC_FINNHUB_API_KEY` (optional, used for client-side stock search)
+- `FINNHUB_API_KEY` (required for server-side data fetching)
+- `MONGODB_URI` (required for User persistence)
+- `BETTER_AUTH_SECRET` (required for Better Auth)
+- `BETTER_AUTH_URL` (required for Base URL of your app)
+- `GEMINI_API_KEY` (required for AI Personalization)
+- `NODEMAILER_EMAIL` (required for email delivery)
+- `NODEMAILER_PASSWORD` (required for email delivery)
+
+
+
+## Future Improvements
+
+- Add portfolio performance tracking (P/L, asset allocation)
+- Improve search relevance with fuzzy matching and sector filtering
+- Add a Watchlist feature and Watchlist page to view focused stocks
+
+## Live Demo
+
+> (Placeholder) Add a link here when a public deployment is available.
+
+## Screenshots
+
+> (Placeholder) Add screenshots of the dashboard, search modal, and email summary here.

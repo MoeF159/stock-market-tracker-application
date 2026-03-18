@@ -20,6 +20,7 @@ const SignUp = () => {
         control,
         formState: { errors , isSubmitting },
     } = useForm<SignUpFormData>({
+        // Prefill sensible defaults to reduce friction on first sign-up.
         defaultValues: {
             fullName: "",
             email: "",
@@ -35,6 +36,7 @@ const SignUp = () => {
     
     const onSubmit =  async (data : SignUpFormData) => {
         try{
+            // Server action creates a user session and triggers welcome email via Inngest.
             const result = await signUpWithEmail(data);
             if(result.success){
                 router.push('/');

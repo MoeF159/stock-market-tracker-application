@@ -19,6 +19,8 @@ export const sendSignUpEmail = inngest.createFunction(
 
         const prompt = PERSONALIZED_WELCOME_EMAIL_PROMPT.replace('{{userProfile}}', userProfile)
 
+        // Use Gemini to generate a short personalized welcome paragraph.
+        // We treat this as an enhancement; if the AI response is missing, fall back to a safe default.
         const response = await step.ai.infer('generate-welcome-intro', {
             model: step.ai.models.gemini({model: 'gemini-2.5-flash-lite'}), 
             body: {
@@ -55,8 +57,9 @@ export const sendSignUpEmail = inngest.createFunction(
 
 export const sendDailyNewsSummary = inngest.createFunction(
     {id: "daily-news-summary"},
-    [ { event: 'app/send.daily.news'}, {cron: '0 12 * * *'} ],
+    [ { event: 'app/send.daily.news'}, {cron: '0 12 * * *', timezone: 'America/New_York'} ],
     async ({ step }) => {
+        // Use Inngest steps to keep the work unit traceable and debuggable in the dashboard.
         // Step 1: Get all users
         const users = await step.run('get-all-users', getAllUsersForNewsEmail)
         if (!users || users.length === 0) {
@@ -93,6 +96,8 @@ export const sendDailyNewsSummary = inngest.createFunction(
 
         for (const { user, articles} of results){
             try {
+                // Use AI to turn a list of raw headlines into a concise, reader-friendly digest.
+                // The prompt includes the raw article array so the model can surface the most relevant points.
                 const prompt = NEWS_SUMMARY_EMAIL_PROMPT.replace('{{newsData}}', JSON.stringify(articles, null, 2));
 
                 const response = await step.ai.infer(`summarize-news-${user.email}`, {

@@ -9,6 +9,7 @@ const Layout = async ({children} : {children: React.ReactNode}) => {
         headers: await headers()
     })
 
+    // Server-side redirect ensures unauthenticated users cannot render the dashboard.
     if(!session?.user) {
         redirect('/sign-in');
     }

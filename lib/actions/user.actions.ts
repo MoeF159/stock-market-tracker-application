@@ -15,6 +15,8 @@ export const getAllUsersForNewsEmail = async () => {
             { projection: { _id: 1, id: 1, email: 1, name: 1, country: 1 }}
         ).toArray();
         
+        // Some auth providers store the user id in `_id`, some in `id`.
+        // Normalize to a single shape for the email pipeline.
         return users.filter((user) => user.email && user.name).map ((user) => ({
             id: user.id || user._id?.toString() || '',
             email: user.email,

@@ -8,6 +8,9 @@ import { cache } from 'react';
 const FINNHUB_BASE_URL = 'https://finnhub.io/api/v1';
 const NEXT_PUBLIC_FINNHUB_API_KEY = process.env.NEXT_PUBLIC_FINNHUB_API_KEY ?? '';
 
+// Wrapper around fetch that optionally uses Next.js cache revalidation.
+// This allows us to avoid refetching stock/news data too aggressively while still
+// being able to force a refresh on demand.
 async function fetchJSON<T>(url: string, revalidateSeconds?: number): Promise<T> {
   const options: RequestInit & { next?: { revalidate?: number } } = revalidateSeconds
     ? { cache: 'force-cache', next: { revalidate: revalidateSeconds } }
@@ -25,18 +28,23 @@ export { fetchJSON };
 
 export async function getNews(symbols?: string[]): Promise<MarketNewsArticle[]> {
   try {
+    // Finnhub expects a date range for company news; keep it tight to limit response size.
     const range = getDateRange(5);
     const token = process.env.FINNHUB_API_KEY ?? NEXT_PUBLIC_FINNHUB_API_KEY;
     if (!token) {
       throw new Error('FINNHUB API key is not configured');
     }
+
+    // Normalize incoming symbols so that we can make safe API calls.
     const cleanSymbols = (symbols || [])
       .map((s) => s?.trim().toUpperCase())
       .filter((s): s is string => Boolean(s));
 
     const maxArticles = 6;
 
-    // If we have symbols, try to fetch company news per symbol and round-robin select
+    // If the user has a watchlist, fetch company news for each symbol in parallel.
+    // We use a round-robin strategy to keep the resulting feed balanced across tickers.
+    // Each API call is cached for 5 minutes so we don't hammer Finnhub repeatedly.
     if (cleanSymbols.length > 0) {
       const perSymbolArticles: Record<string, RawNewsArticle[]> = {};
 
@@ -54,7 +62,7 @@ export async function getNews(symbols?: string[]): Promise<MarketNewsArticle[]> 
       );
 
       const collected: MarketNewsArticle[] = [];
-      // Round-robin up to 6 picks
+      // Round-robin up to 6 picks to avoid over-representing any single symbol.
       for (let round = 0; round < maxArticles; round++) {
         for (let i = 0; i < cleanSymbols.length; i++) {
           const sym = cleanSymbols[i];
@@ -76,7 +84,8 @@ export async function getNews(symbols?: string[]): Promise<MarketNewsArticle[]> 
       // If none collected, fall through to general news
     }
 
-    // General market news fallback or when no symbols provided
+    // General market news fallback or when no symbols provided.
+    // We de-duplicate results because Finnhub can return duplicates across responses.
     const generalUrl = `${FINNHUB_BASE_URL}/news?category=general&token=${token}`;
     const general = await fetchJSON<RawNewsArticle[]>(generalUrl, 300);
 
@@ -101,9 +110,9 @@ export async function getNews(symbols?: string[]): Promise<MarketNewsArticle[]> 
 
 export const searchStocks = cache(async (query?: string): Promise<StockWithWatchlistStatus[]> => {
   try {
+    // Prefer server-side key but allow a public key for client-side fallbacks.
     const token = process.env.FINNHUB_API_KEY ?? NEXT_PUBLIC_FINNHUB_API_KEY;
     if (!token) {
-      // If no token, log and return empty to avoid throwing per requirements
       console.error('Error in stock search:', new Error('FINNHUB API key is not configured'));
       return [];
     }
@@ -112,19 +121,39 @@ export const searchStocks = cache(async (query?: string): Promise<StockWithWatch
 
     let results: FinnhubSearchResult[] = [];
 
+    // Normalize exchange names returned by Finnhub because they can be verbose.
+    // This makes the UI display cleaner and consistent across results.
+    const EXCHANGE_CODES: Record<string, string> = {
+      "NASDAQ NMS - GLOBAL MARKETS": "NASDAQ",
+      "NEW YORK STOCK EXCHANGE": "NYSE",
+      "NYSE ARCA": "NYSE",
+      "AMEX": "AMEX",
+      "TORONTO STOCK EXCHANGE": "TSX",
+      "LONDON STOCK EXCHANGE": "LSE",      // add more if needed
+    };
+
+    const normalizeExchange = (raw: string | undefined): string => {
+      if (!raw) return "US"; // fallback if missing
+      const upperRaw = raw.toUpperCase().trim();
+      const mapped = EXCHANGE_CODES[raw] || EXCHANGE_CODES[upperRaw];
+      if (mapped) return mapped;
+      // fallback: take first word (e.g., "NASDAQ NMS - GLOBAL MARKETS" → "NASDAQ")
+      return raw.split(/\s|-/)[0].toUpperCase();
+    };
+
     if (!trimmed) {
-      // Fetch top 10 popular symbols' profiles
+      // Empty query: return a curated list of popular stocks as a lightweight default.
+      // We fetch profile data here to show human-readable names in the UI.
       const top = POPULAR_STOCK_SYMBOLS.slice(0, 10);
       const profiles = await Promise.all(
         top.map(async (sym) => {
           try {
             const url = `${FINNHUB_BASE_URL}/stock/profile2?symbol=${encodeURIComponent(sym)}&token=${token}`;
-            // Revalidate every hour
             const profile = await fetchJSON<any>(url, 3600);
-            return { sym, profile } as { sym: string; profile: any };
+            return { sym, profile };
           } catch (e) {
             console.error('Error fetching profile2 for', sym, e);
-            return { sym, profile: null } as { sym: string; profile: any };
+            return { sym, profile: null };
           }
         })
       );
@@ -132,48 +161,44 @@ export const searchStocks = cache(async (query?: string): Promise<StockWithWatch
       results = profiles
         .map(({ sym, profile }) => {
           const symbol = sym.toUpperCase();
-          const name: string | undefined = profile?.name || profile?.ticker || undefined;
-          const exchange: string | undefined = profile?.exchange || undefined;
+          const name: string | undefined = profile?.name || profile?.ticker;
           if (!name) return undefined;
-          const r: FinnhubSearchResult = {
+
+          const rawExchange = profile?.exchange;
+          return {
             symbol,
             description: name,
-            displaySymbol: symbol,
             type: 'Common Stock',
-          };
-          // We don't include exchange in FinnhubSearchResult type, so carry via mapping later using profile
-          // To keep pipeline simple, attach exchange via closure map stage
-          // We'll reconstruct exchange when mapping to final type
-          (r as any).__exchange = exchange; // internal only
-          return r;
+            __exchange: rawExchange,
+          } as FinnhubSearchResult;
         })
         .filter((x): x is FinnhubSearchResult => Boolean(x));
     } else {
+      // Search stocks
       const url = `${FINNHUB_BASE_URL}/search?q=${encodeURIComponent(trimmed)}&token=${token}`;
       const data = await fetchJSON<FinnhubSearchResponse>(url, 1800);
       results = Array.isArray(data?.result) ? data.result : [];
     }
 
-    const mapped: StockWithWatchlistStatus[] = results
-      .map((r) => {
-        const upper = (r.symbol || '').toUpperCase();
-        const name = r.description || upper;
-        const exchangeFromDisplay = (r.displaySymbol as string | undefined) || undefined;
-        const exchangeFromProfile = (r as any).__exchange as string | undefined;
-        const exchange = exchangeFromDisplay || exchangeFromProfile || 'US';
-        const type = r.type || 'Stock';
-        const item: StockWithWatchlistStatus = {
-          symbol: upper,
-          name,
-          exchange,
-          type,
-          isInWatchlist: false,
-        };
-        return item;
-      })
-      .slice(0, 15);
+    // Convert Finnhub results to the app's normalized stock shape.
+    // Note: watchlist status is managed client-side and attached later in the UI.
+    const mapped: StockWithWatchlistStatus[] = results.map((r) => {
+      const upperSymbol = (r.symbol || '').toUpperCase();
+      const name = r.description || upperSymbol;
+      const exchange = normalizeExchange((r as any).__exchange);
+      const type = r.type || 'Stock';
+
+      return {
+        symbol: upperSymbol,
+        name,
+        exchange,
+        type,
+        isInWatchlist: false,
+      };
+    }).slice(0, 15);
 
     return mapped;
+
   } catch (err) {
     console.error('Error in stock search:', err);
     return [];

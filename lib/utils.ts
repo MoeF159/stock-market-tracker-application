@@ -1,10 +1,13 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+// Utility to merge Tailwind class names while removing duplicates and handling conditionals.
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// Converts a Unix timestamp (seconds) into a human-readable relative time string.
+// Used for displaying how recently news articles were published.
 export const formatTimeAgo = (timestamp: number) => {
   const now = Date.now();
   const diffInMs = now - timestamp * 1000; // Convert to milliseconds

@@ -5,7 +5,8 @@ import { nextCookies } from "better-auth/next-js";
 
 let authInstance: ReturnType<typeof betterAuth> | null = null;
 
-
+// Initialize Better Auth instance and cache it for reuse.
+// This prevents creating multiple auth clients during hot reload / serverless invocations.
 export const getAuth = async () => {
     if(authInstance) {
         return authInstance;
@@ -21,6 +22,7 @@ export const getAuth = async () => {
      const secret = process.env.BETTER_AUTH_SECRET;
      const baseURL = process.env.BETTER_AUTH_URL;
      
+     // Ensure required auth settings are provided at runtime.
      if (!secret) {
          throw new Error("BETTER_AUTH_SECRET environment variable is not set");
      }

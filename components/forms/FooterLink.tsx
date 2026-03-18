@@ -1,3 +1,5 @@
+// Small reusable component for link text shown at the bottom of auth forms.
+// Keeps sign-in/sign-up pages visually consistent.
 const FooterLink = ({text, linkText, href} : FooterLinkProps) => {
     return (
         <div className="text-center pt-4">

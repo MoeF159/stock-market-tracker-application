@@ -19,6 +19,7 @@ const UserDropDown = ({ user, initialStocks }: {user: User, initialStocks: Stock
     const router = useRouter();
 
     const handleSignOut = async () => {
+        // Clear session on the server and redirect back to sign-in.
         await signOut();
         router.push("/sign-in");
     }
@@ -68,7 +69,8 @@ const UserDropDown = ({ user, initialStocks }: {user: User, initialStocks: Stock
                 </DropdownMenuItem>
 
                 <DropdownMenuSeparator className="hidden sm:block bg-gray-600"/>
-                <nav className="sm:hidden">
+                {/* Show nav links inside the dropdown on small screens (mobile) since the top nav is hidden. */}
+                <nav className="sm:hidden" aria-label="Mobile primary navigation">
                     <NavItems initialStocks={initialStocks} />
                 </nav>
 

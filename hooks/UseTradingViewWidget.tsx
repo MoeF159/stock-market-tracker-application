@@ -8,6 +8,9 @@ const useTradingViewWidget = (scriptURL: string, config: Record<string, unknown>
       useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+
+    // Prevent double-loading TradingView widget in React strict mode or when props re-render.
+    // TradingView embeds are stateful scripts that should only be initialized once per container.
     if (container.dataset.loaded) return;
 
     const widgetHost = document.createElement("div");
@@ -22,6 +25,7 @@ const useTradingViewWidget = (scriptURL: string, config: Record<string, unknown>
     container.appendChild(script);
     container.dataset.loaded = "true";
 
+    // Cleanup on unmount to avoid stale widgets or duplicate scripts when navigating.
     return () => {
         script.remove();
         widgetHost.remove();

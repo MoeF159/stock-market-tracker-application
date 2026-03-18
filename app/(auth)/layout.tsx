@@ -8,6 +8,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
     const session = await auth.api.getSession({ headers: await headers()})
 
+    // Redirect authenticated users away from the sign-in/up pages.
     if(session?.user){
         redirect('/')
     }

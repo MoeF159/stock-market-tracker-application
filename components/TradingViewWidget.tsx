@@ -4,6 +4,10 @@ import useTradingViewWidget from '@/hooks/UseTradingViewWidget';
 import { cn } from '@/lib/utils';
 import React, { memo } from 'react';
 
+
+// This interface defines the props for the TradingViewWidget component, 
+// which is a reusable wrapper around TradingView's embeddable widgets. 
+// It accepts the script URL for the specific widget, a configuration object, optional title, height, and additional CSS classes.
 interface TradingViewWidgetProps {
     title?: string;
     scriptURL: string;
