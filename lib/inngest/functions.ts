@@ -57,7 +57,7 @@ export const sendSignUpEmail = inngest.createFunction(
 
 export const sendDailyNewsSummary = inngest.createFunction(
     {id: "daily-news-summary"},
-    [ { event: 'app/send.daily.news'}, {cron: '0 12 * * *'} ],
+    [ { event: 'app/send.daily.news'}, {cron: '0 12 * * *', timezone: 'America/New_York'} ],
     async ({ step }) => {
         // Use Inngest steps to keep the work unit traceable and debuggable in the dashboard.
         // Step 1: Get all users
