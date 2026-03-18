@@ -76,7 +76,7 @@ Signalist is an AI-powered modern stock market tracking dashboard built with Nex
 
 Create a `.env` file with the following variables:
 
-- `NEXT_PUBLIC_FINNHUB_API_KEY` (optional, used in client-side pump for stock search)
+- `NEXT_PUBLIC_FINNHUB_API_KEY` (optional, used for client-side stock search)
 - `FINNHUB_API_KEY` (required for server-side data fetching)
 - `MONGODB_URI` (required for User persistence)
 - `BETTER_AUTH_SECRET` (required for Better Auth)

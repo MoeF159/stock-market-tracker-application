@@ -13,7 +13,13 @@ const WatchlistButton = ({
   type = "button",
   onWatchlistChange,
 }: WatchlistButtonProps) => {
+import React, { useEffect, useMemo, useState } from "react";
+
   const [added, setAdded] = useState<boolean>(!!isInWatchlist);
+
+  useEffect(() => {
+    setAdded(!!isInWatchlist);
+  }, [isInWatchlist]);
 
   const label = useMemo(() => {
     if (type === "icon") return added ? "" : "";

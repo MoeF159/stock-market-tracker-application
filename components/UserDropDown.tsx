@@ -70,7 +70,7 @@ const UserDropDown = ({ user, initialStocks }: {user: User, initialStocks: Stock
 
                 <DropdownMenuSeparator className="hidden sm:block bg-gray-600"/>
                 {/* Show nav links inside the dropdown on small screens (mobile) since the top nav is hidden. */}
-                <nav className="sm:hidden">
+                <nav className="sm:hidden" aria-label="Mobile primary navigation">
                     <NavItems initialStocks={initialStocks} />
                 </nav>
 
