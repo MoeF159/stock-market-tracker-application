@@ -53,8 +53,16 @@ Signalist is a modern stock market tracking dashboard built with Next.js and Tra
    ```bash
    npm install
    ```
-3. Create a new .env file and copy the .env variableds below and fill in your own keys:
+3. Create a new .env file with the following template and fill in your own keys:
    ```bash
+   NEXT_PUBLIC_FINNHUB_API_KEY=your_finnhub_api_key_here
+   FINNHUB_API_KEY=your_finnhub_api_key_here
+   MONGODB_URI=your_mongodb_uri_here
+   BETTER_AUTH_SECRET=your_better_auth_secret_here
+   BETTER_AUTH_URL=http://localhost:3000
+   GEMINI_API_KEY=your_gemini_api_key_here
+   NODEMAILER_EMAIL=your_email_here
+   NODEMAILER_PASSWORD=your_email_password_here
    ```
 4. Start the development server:
    ```bash
@@ -72,7 +80,7 @@ Create a `.env` file with the following variables:
 - `NEXT_PUBLIC_FINNHUB_API_KEY` (optional, used in client-side pump for stock search)
 - `FINNHUB_API_KEY` (required for server-side data fetching)
 - `MONGODB_URI` (required for watchlist persistence)
-- `BETTER_AUTH_SECRET` (required for Better Authutilization)
+- `BETTER_AUTH_SECRET` (required for Better Auth)
 - `BETTER_AUTH_URL` (required for Base URL of your app)
 - `GEMINI_API_KEY` (required for AI Personalization)
 - `NODEMAILER_EMAIL` (required for email delivery)
