@@ -2,18 +2,17 @@
 
 ## Overview
 
-Signalist is a modern stock market tracking dashboard built with Next.js and TradingView embeds. It provides authenticated users with a personalized watchlist, real-time stock search, and daily market news summaries tailored to their holdings.
+Signalist is a modern stock market tracking dashboard built with Next.js and TradingView embeds. It provides authenticated users with a comprehensive Market overview, real-time stock search, and daily market news summaries tailored to their holdings.
 
 **Who it’s for:** retail investors and traders who want a lightweight, data-driven starting point to monitor their portfolio and stay on top of market-moving headlines.
 
-**Why it’s useful:** It combines market data widgets, fast symbol discovery, and an automated news summarization pipeline to reduce noise and surface the most relevant updates for a user’s watchlist.
+**Why it’s useful:** It combines market data widgets, fast symbol discovery, and an automated news summarization pipeline to reduce noise and surface the most relevant updates for a users.
 
 ## Features
 
 - Secure email/password authentication with session-based access control
 - Stock symbol search with debounced API calls and instant navigation
 - TradingView-powered dashboards: heatmap, quotes, and news widgets
-- Personalized watchlist stored in MongoDB (per user)
 - Daily market news email summaries generated via AI (Inngest + Gemini)
 - Graceful API fallbacks and rate-limit safe caching
 
@@ -23,7 +22,7 @@ Signalist is a modern stock market tracking dashboard built with Next.js and Tra
 - **Backend:** Next.js Server Actions, Inngest serverless functions
 - **API:** Finnhub stock and news APIs, TradingView embedded widgets
 - **Auth:** Custom Better Auth integration
-- **Database:** MongoDB (Mongoose) for watchlists and user references
+- **Database:** MongoDB (Mongoose) for User credentials storage
 - **Email:** Nodemailer templates with AI-generated summaries
 
 ## Architecture / How It Works
@@ -79,7 +78,7 @@ Create a `.env` file with the following variables:
 
 - `NEXT_PUBLIC_FINNHUB_API_KEY` (optional, used in client-side pump for stock search)
 - `FINNHUB_API_KEY` (required for server-side data fetching)
-- `MONGODB_URI` (required for watchlist persistence)
+- `MONGODB_URI` (required for User persistence)
 - `BETTER_AUTH_SECRET` (required for Better Auth)
 - `BETTER_AUTH_URL` (required for Base URL of your app)
 - `GEMINI_API_KEY` (required for AI Personalization)
@@ -90,11 +89,9 @@ Create a `.env` file with the following variables:
 
 ## Future Improvements
 
-- Add real-time price updates using WebSockets or Finnhub streaming APIs
-- Expand user settings (alert thresholds, notification frequency)
 - Add portfolio performance tracking (P/L, asset allocation)
 - Improve search relevance with fuzzy matching and sector filtering
-- Add unit/integration tests for critical API and server action paths
+- Add a Watchlist feature and Watchlist page for users to view focused stocks
 
 ## Live Demo
 
