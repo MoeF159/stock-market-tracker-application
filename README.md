@@ -6,7 +6,7 @@ Signalist is an AI-powered modern stock market tracking dashboard built with Nex
 
 **Who it’s for:** retail investors and traders who want a lightweight, data-driven starting point to monitor their portfolio and stay on top of market-moving headlines.
 
-**Why it’s useful:** It combines market data widgets, fast symbol discovery, and an automated news summarization pipeline to reduce noise and surface the most relevant updates for a users.
+**Why it’s useful:** It combines market data widgets, fast symbol discovery, and an automated news summarization pipeline to reduce noise and surface the most relevant updates for users.
 
 ## Features
 
