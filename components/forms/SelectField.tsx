@@ -28,6 +28,7 @@ const SelectField = ({
                 rules={{
                     required: required ? `Please select ${label.toLowerCase}` : false,
                 }}
+                // Controller wraps the custom Select component so it can work with react-hook-form.
                 render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
                         <SelectTrigger className="select-trigger">

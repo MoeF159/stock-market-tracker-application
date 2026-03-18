@@ -13,6 +13,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 
+// Wrappers around `cmdk` primitives with the app's design tokens.
+// This allows the command palette to be styled consistently without repeating class names.
+
 function Command({
   className,
   ...props

@@ -13,7 +13,8 @@ import Link from "next/link"
 import { searchStocks } from "@/lib/actions/finnhub.actions"
 import { useDebounce } from "@/hooks/useDebounce"
 
-// Moved defaultStocks outside the component to avoid useEffect dependency warnings
+// Moved defaultStocks outside the component to avoid useEffect dependency warnings and keep a stable reference
+// when the component renders before async data is available.
 const defaultStocks: StockWithWatchlistStatus[] = [
   { symbol: "TST", name: "TEST", exchange: "NASDAQ", type: "TYPE", isInWatchlist: false }
 ]
@@ -31,7 +32,8 @@ export default function SearchCommand({
   const isSearchMode = !!searchTerm.trim()
   const displayStocks = isSearchMode ? stocks : stocks?.slice(0, 10)
 
-  // Keyboard shortcut: Cmd/Ctrl + K
+  // Keyboard shortcut: Cmd/Ctrl + K opens/closes the search dialog even when focused elsewhere.
+  // This improves discoverability for power users.
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
@@ -43,11 +45,13 @@ export default function SearchCommand({
     return () => window.removeEventListener("keydown", onKeyDown)
   }, [])
 
-  // Debounced search term
+  // Debounced search term to avoid issuing API calls on every keystroke.
+  // Search results are updated only after the user stops typing for 300ms.
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
 
   useEffect(() => {
     if (!debouncedSearchTerm.trim()) {
+      // When the search term is empty, reset to initial popular stocks (server-rendered)
       setStocks(initialStocks ?? defaultStocks)
       return
     }
@@ -58,6 +62,7 @@ export default function SearchCommand({
         const results = await searchStocks(debouncedSearchTerm.trim())
         setStocks(results)
       } catch {
+        // In case of an error (API down / rate-limit), show empty results instead of failing.
         setStocks([])
       } finally {
         setLoading(false)

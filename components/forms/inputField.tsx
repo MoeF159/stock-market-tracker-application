@@ -3,6 +3,8 @@ import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {cn} from "@/lib/utils";
 
+// A thin wrapper around the shared Input component that integrates with react-hook-form.
+// This keeps field layout and validation error display consistent across auth forms.
 const InputField = ({ name, label, placeholder, type = "text", register, error, validation, disabled, value }: FormInputProps) => {
     return (
         <div className="space-y-2">

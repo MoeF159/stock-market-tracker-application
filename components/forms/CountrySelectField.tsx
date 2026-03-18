@@ -38,10 +38,11 @@ const CountrySelect = (
 }) => {
     const [open, setOpen] = useState(false);
 
-    // Get country options with flags
+    // Build the country list once on each render. It is small and static, so performance impact is negligible.
     const countries = countryList().getData();
 
-    // Helper function to get flag emoji
+    // Convert ISO country code (e.g. "US") to a flag emoji codepoint sequence.
+    // This avoids pulling in a full flag icon library while still providing visual context.
     const getFlagEmoji = (countryCode: string) => {
         const codePoints = countryCode
             .toUpperCase()
@@ -121,6 +122,8 @@ export const CountrySelectField = ({
                                        error,
                                        required = false,
                                    }: CountrySelectProps) => {
+    // This custom field is rendered as a popover/command palette to keep the form compact,
+    // while still allowing quick keyboard search of country names.
     return (
         <div className='space-y-2'>
             <Label htmlFor={name} className='form-label'>

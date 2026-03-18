@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 const MONGODB_URI = process.env.MONGODB_URI;
 
 declare global {
+    // Store a cached mongoose connection on the global object to prevent
+    // creating multiple connections during hot reload in development.
     var mongooseCache: {
         conn: typeof mongoose | null;
         promise: Promise<typeof mongoose> | null;

@@ -17,6 +17,7 @@ const SignIn = () => {
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm<SignInFormData>({
+        // Validate on blur to avoid premature error messages while user types.
         defaultValues: {
             email: '',
             password: '',
@@ -26,6 +27,7 @@ const SignIn = () => {
 
     const onSubmit =  async (data : SignInFormData) => {
         try{
+            // Server action performs authentication using Better Auth.
             const result = await signInWithEmail(data);
             if(result.success){
                 router.push('/');

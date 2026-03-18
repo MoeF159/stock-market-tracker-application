@@ -5,6 +5,8 @@ import UserDropDown from "@/components/UserDropDown";
 import { searchStocks } from "@/lib/actions/finnhub.actions";
 
 const Header = async ({ user }) => {
+  // Fetch default search results once on the server so the search overlay has meaningful
+  // content immediately without requiring the first client-side API call.
   const initialStocks = await searchStocks();
   return (
     <header className="sticky top-0 header">
