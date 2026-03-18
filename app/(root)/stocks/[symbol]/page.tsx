@@ -11,7 +11,7 @@ import {
 
 export default async function StockDetails({ params }: StockDetailsPageProps) {
   const { symbol } = await params;
-  const scriptUrl = `https://s3.tradingview.com/external-embedding/embed-widget-`;
+  const scriptURL = `https://s3.tradingview.com/external-embedding/embed-widget-`;
 
   return (
     <div className="flex min-h-screen p-4 md:p-6 lg:p-8">
@@ -19,20 +19,20 @@ export default async function StockDetails({ params }: StockDetailsPageProps) {
         {/* Left column */}
         <div className="flex flex-col gap-6">
           <TradingViewWidget
-            scriptUrl={`${scriptUrl}symbol-info.js`}
+            scriptURL={`${scriptURL}symbol-info.js`}
             config={SYMBOL_INFO_WIDGET_CONFIG(symbol)}
             height={170}
           />
 
           <TradingViewWidget
-            scriptUrl={`${scriptUrl}advanced-chart.js`}
+            scriptURL={`${scriptURL}advanced-chart.js`}
             config={CANDLE_CHART_WIDGET_CONFIG(symbol)}
             className="custom-chart"
             height={600}
           />
 
           <TradingViewWidget
-            scriptUrl={`${scriptUrl}advanced-chart.js`}
+            scriptURL={`${scriptURL}advanced-chart.js`}
             config={BASELINE_WIDGET_CONFIG(symbol)}
             className="custom-chart"
             height={600}
@@ -46,19 +46,19 @@ export default async function StockDetails({ params }: StockDetailsPageProps) {
           </div>
 
           <TradingViewWidget
-            scriptUrl={`${scriptUrl}technical-analysis.js`}
+            scriptURL={`${scriptURL}technical-analysis.js`}
             config={TECHNICAL_ANALYSIS_WIDGET_CONFIG(symbol)}
             height={400}
           />
 
           <TradingViewWidget
-            scriptUrl={`${scriptUrl}company-profile.js`}
+            scriptURL={`${scriptURL}company-profile.js`}
             config={COMPANY_PROFILE_WIDGET_CONFIG(symbol)}
             height={440}
           />
 
           <TradingViewWidget
-            scriptUrl={`${scriptUrl}financials.js`}
+            scriptURL={`${scriptURL}financials.js`}
             config={COMPANY_FINANCIALS_WIDGET_CONFIG(symbol)}
             height={464}
           />
