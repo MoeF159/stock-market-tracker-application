@@ -2,11 +2,13 @@
 
 ## Overview
 
-Signalist is an AI-powered modern stock market tracking dashboard built with Next.js, Shadcn, Better Auth, and Inngest. It provides authenticated users with a comprehensive Market overview including real-time prices, company insights, financial news and stock market activity. It also allows for real-time stock search, and daily market news summaries tailored to the user.
+Signalist is a modern, AI-powered stock market tracking platform built with Next.js, Tailwind CSS, Shadcn UI, Better Auth, and Inngest.
 
-**Who it’s for:** retail investors and traders who want a lightweight, data-driven starting point to monitor their portfolio and stay on top of market-moving headlines.
+It provides authenticated users with a real-time market dashboard featuring stock quotes, company insights, financial news, and AI-generated daily summaries. The platform is designed to reduce market noise and surface actionable information quickly.
 
-**Why it’s useful:** It combines market data widgets, fast symbol discovery, and an automated news summarization pipeline to reduce noise and surface the most relevant updates for users.
+**Target users:** Retail investors and active traders who want a fast, lightweight way to track markets and stay updated on relevant news.
+
+**Core value:** Combines real-time market data, intelligent news summarization, and automated delivery pipelines into a single streamlined experience
 
 ## Features
 
@@ -89,9 +91,11 @@ Create a `.env` file with the following variables:
 
 ## Future Improvements
 
-- Add portfolio performance tracking (P/L, asset allocation)
-- Improve search relevance with fuzzy matching and sector filtering
-- Add a Watchlist feature and Watchlist page to view focused stocks
+- Portfolio tracking (P/L, allocation, performance analytics)
+- Advanced search (fuzzy matching + sector filtering)
+- Watchlist system with personalized dashboards
+- Real-time market alerts (price + news triggers)
+- Mobile-responsive UI improvements
 
 ## Live Demo
 
